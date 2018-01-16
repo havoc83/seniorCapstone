@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .main.container
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2 addEmployee
+          form(method='POST' action='add')
+            div.form-group
+             each key,val in {'firstname':'First Name', 'lastname':'Last Name','email':'Email','phone':'Phone'}
+                  label(for= val) #{key}:
+                  input.form-control(type='text' name= val, id= val)  
+            button.btn.btn-primary(type='submit') Add Employee

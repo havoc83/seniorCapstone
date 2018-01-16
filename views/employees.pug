@@ -1,0 +1,26 @@
+extends layout
+
+block content
+    .main.container
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2.text-center= title
+          table.table.table-striped
+            tr
+              th.text-center First Name
+              th.text-center Last Name
+              th.text-center Email
+              th.text-center Phone
+              th.text-center Edit
+              th.text-center Delete
+            each val in data
+              tr
+                td= val.firstname
+                td= val.lastname
+                td= val.email
+                td= val.phone
+                td 
+                  a(href='employees/edit/'+ val.empid) Edit 
+                td 
+                  a(href='employees/delete/'+ val.empid) Delete
+        
