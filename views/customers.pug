@@ -1,6 +1,36 @@
 extends layout
 
 block content
-  div.row
-    div.column-md-12
-    h1.text-center= title
+    .main.container
+    a(href="customers/add")
+      button(type="button").addItem Add Customers
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2.text-center= title
+          table.table.table-striped
+            tr
+              th.text-center First Name
+              th.text-center Last Name
+              th.text-center Email
+              th.text-center Phone
+              th.text-center Address
+              th.text-center City
+              th.text-center State
+              th.text-center Zip
+              th.text-center  
+              th.text-center 
+            each val in data
+              tr
+                td= val.firstname
+                td= val.lastname
+                td= val.email
+                td= val.phone
+                td= val.address
+                td= val.city
+                td= val.state
+                td= val.zip
+                td 
+                  a(href='customers/edit/'+ val.empid) Edit 
+                td 
+                  a(href='customers/delete/'+ val.empid) Delete
+        

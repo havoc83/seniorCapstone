@@ -1,7 +1,29 @@
 extends layout
 
 block content
-  div.row
-    div.column-md-12
-    h1.text-center= title
+    .main.container
+    a(href="movies/add")
+      button(type="button").addItem Add Movie
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2.text-center= title
+          table.table.table-striped
+            tr
+              each val in ['Movie Id','Title','Genre','Language','Run Time',]
+               th.text-center #{val}
+            each val in data
+              tr
+                td= val.movieid
+                td= val.title
+                td= val.genre
+                td= val.language
+                td= val.length
+                td 
+                 a(href='movies/edit/'+ val.movieid) Edit 
+                td 
+                  a(href='movies/delete/'+ val.movieid) Delete
+        
+        
+        
+        
         

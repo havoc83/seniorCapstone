@@ -1,43 +1,35 @@
-//cd brewCityRentals/ && SET DEBUG = brewCityRentals: * & npm run devstart
+//cd brewCityRentals/ &&  npm run dev
 
-var express = require('express')
-var path = require('path')
-//var favicon = require('serve-favicon')
-var logger = require('morgan')
-var cookieParser = require('cookie-parser')
-var bodyParser = require('body-parser')
-var connection = require('express-myconnection')
-var mysql = require('mysql')
-var app = express()
-var dbinfo = require('./db.json')
-var expressSession = require('express-session')
-var expressValidator = require('express-validator')
+const express = require('express')
+const path = require('path')
+const bodyParser = require('body-parser')
+const connection = require('express-myconnection')
+const mysql = require('mysql')
+const app = express()
+const dbinfo = require('./db.json')
+
+
 
 app.use(connection(mysql, dbinfo, 'pool'))
 var index = require('./routes/index')
-//var login = require('./routes/login')
 var employees = require('./routes/employees')
 var movies = require('./routes/movies')
-
+var customers = require('./routes/customers')
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
 
-// uncomment after placing your favicon in /public
-//app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')))
-app.use(logger('dev'))
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-app.use(cookieParser())
-app.use(express.static(path.join(__dirname, 'public')))
-app.use(expressValidator())
-app.use(expressSession({ secret: 'BrewCityRentals', saveUninitialized: false, resave: false }))
+
+//Add Routes
 app.use('/', index)
-//app.use('/login', login)
 app.use('/employees', employees)
 app.use('/movies', movies)
-//app.use('/transaction', transaction)
+app.use('/customers', customers)
+
+app.use(express.static(path.join(__dirname, 'public')))
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

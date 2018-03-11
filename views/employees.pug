@@ -2,6 +2,8 @@ extends layout
 
 block content
     .main.container
+    a(href="employees/add")
+      button(type="button").addItem Add Employee
       .row
         .col-md-6.col-md-offset-3
           h1.display-4.m-b-2.text-center= title
@@ -11,8 +13,8 @@ block content
               th.text-center Last Name
               th.text-center Email
               th.text-center Phone
-              th.text-center Edit
-              th.text-center Delete
+              th.text-center
+              th.text-center
             each val in data
               tr
                 td= val.firstname

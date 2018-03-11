@@ -1,14 +1,116 @@
-var app = require('../app')
 var express = require('express')
 var router = express.Router()
-var customers = require('./controller')
 
+router.get('/', (req, res) => {
+    req.getConnection((err, connection) => {
+        if (err) {
+            console.log("Error while selecting from customers table.")
+        }
+        connection.query(`SELECT firstname,lastname,email,phone,address,
+        city,state,zip FROM customers`,
+            (err, rows) => {
+                if (err) {
+                    console.log("Error Selecting : %s ", err)
+                }
+                else {
+                    res.render('customers', { title: "BCR customers", data: rows })
+                }
+            })
+    })
+})
 
-router.get('/', customers.custShow) //route add customer, get n post
-router.get('/add', customers.custAdd)
-router.post('/add', customers.custSave) //route delete customer
-router.get('/delete/:id', customers.custDelete) //edit customer route , get n post
-router.get('/edit/:id', customers.custEdit)
-router.post('/edit/:id', customers.custEditSave)
+router.get('/add', (req, res) => {
+    res.render('addcustomer', { title: "Add Customer" })
 
+})
+
+router.post('/add', (req, res) => {
+    var input = JSON.parse(JSON.stringify(req.body))
+    var data = {
+        firstname: input.firstname,
+        lastname: input.lastname,
+        email: input.email,
+        phone: input.phone,
+        address: input.address,
+        city: input.city,
+        state: input.state,
+        zip: input.state,
+        emp_entry: input.entryEmp
+    }
+    req.getConnection(function (err, connection) {
+        if (err) {
+            console.log("Connection error in customer insert")
+        }
+        connection.query('INSERT INTO customers SET ?', data, function (err, rows) {
+            if (err) {
+                console.log("Error Inserting: %s", err)
+            }
+            else {
+                res.redirect("/customers")
+            }
+        })
+    })
+})
+
+router.get('/delete/:id', (req, res) => {
+    var id = req.params.id
+    req.getConnection(function (err, connection) {
+        if (err) {
+            console.log("Error deleting from customers database")
+        }
+        connection.query("DELETE FROM Customer WHERE custid = ?", [id], function (err, rows) {
+            if (err) {
+                console.log("Error Deleting Row: %s", err)
+            }
+            else {
+                res.redirect("/customers")
+            }
+        })
+    })
+})
+router.get('/edit/:id', (req, res) => {
+    var id = req.params.id
+    req.getConnection(function (err, connection) {
+        if (err) {
+            console.log()
+        }
+        connection.query(`SELECT firstname,lastname,email,phone,address
+        ,city,state,zip FROM customers WHERE custid = ?`, [id], function (err, rows) {
+            if (err) {
+                console.log("Error Selecting: %s", err)
+            }
+            else {
+                res.render('editcustomer', { title: 'Edit Customer', data: rows })
+            }
+        })
+    })
+})
+router.post('/edit/:id', (req, res) => {
+    var input = JSON.parse(JSON.stringify(req.body))
+    var id = req.params.id
+    var data = {
+        firstname: input.firstname,
+        lastname: input.lastname,
+        email: input.email,
+        phone: input.phone,
+        address: input.address,
+        city: input.city,
+        state: input.state,
+        zip: input.state,
+        emp_entry: input.entryEmp
+    }
+    req.getConnection(function (err, connection) {
+        if (err) {
+            console.log("Failure to update customers table")
+        }
+        connection.query("UPDATE Customers SET ? WHERE ?", [data, id], function (err, rows) {
+            if (err) {
+                console.log("Error Updating: %s", err)
+            }
+            else {
+                res.redirect("/customers")
+            }
+        })
+    })
+})
 module.exports = router

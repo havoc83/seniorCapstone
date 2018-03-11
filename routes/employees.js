@@ -3,6 +3,7 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
     req.getConnection((err, connection) => {
+        if (err) return
         connection.query('SELECT empid,firstname,lastname,email,phone FROM employees',
             (err, rows) => {
                 if (err) {

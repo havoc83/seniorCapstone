@@ -6,3 +6,17 @@ body {
 a {
   color: #00B7FF;
 }
+
+.addItem {
+  float: right;
+  background-color: #F5F6CE;
+
+}
+
+#submitTrans {
+  margin-top: 10px;
+}
+
+.fee-alert {
+  color: red;
+}
