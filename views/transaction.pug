@@ -1,0 +1,61 @@
+extends layout
+
+block content
+  div.row
+    div.column-md-12
+    h1.text-center= title
+    div#show-errors.hidden
+      h2#errors Error on Form Submission
+  
+        // transaction form
+    form#transaction-form(method='POST' action='/transaction')
+      div.form-group
+        div.dropdown
+          button.btn.btn-default.dropdown-toggle(data-toggle="dropdown" id="trans-type" type="button") Transaction Type
+            span.caret
+          ul.dropdown-menu(role="menu" aria-labelledby="trans-type")
+            li(role="presentation")
+              a#checkout(role="menuitem" tabindex="-1" href="#") Check-out
+            li(role="presentation")
+              a#checkin(role="menuitem" tabindex="-1" href="#") Check-in
+        div#customer-id
+          label(for='custid') Customer ID:
+          input#custid.form-control(type='text' placeholder='Customer id' name='custid')
+        div#dvd-id
+          label(for='dvd') Dvd-Ids:
+          input#dvd.form-control(type='text' name='dvd' placeholder="DVD id")
+        div#due-date
+          label(for='due') Due Back:
+          input#due.form-control(type='text' name='due' placeholder="Due Date")
+        div#late-fees.hidden 
+          label(for='fees') Late Fees:
+          input#fee-amount.form-control(type='text' name='fee' value='0')
+        div#payment.dropdown
+          button.btn.btn-default.dropdown-toggle(data-toggle="dropdown" id="menu1" type="button") Payment Method
+            span.caret
+          ul.dropdown-menu(role="menu" aria-labelledby="menu1")
+            li(role="presentation")
+              a#cash(role="menuitem" tabindex="-1" href="#") Cash
+            li(role="presentation")
+              a#check(role="menuitem" tabindex="-1" href="#") Check
+            li(role="presentation")
+              a#credit(role="menuitem" tabindex="-1" href="#") Credit Card
+          div.input-group.hidden#input-amount
+            div.input-group-prepend
+              span.input-group-text Amount
+            input.form-control(type="text" name="amount")
+          div.input-group.hidden#input-check
+            div.input-group-prepend
+              span.input-group-text Check #
+            input.form-control(type="text" name="check")
+          div.input-group.hidden#input-credit
+            div.input-group-prepend
+              span.input-group-text Card #
+            input.form-control(type="text" name="credit")
+            div.input-group-prepend
+              span.input-group-text Expiration Date
+            input.form-control(type="text" name="credit-exp")
+        button#submitTrans.btn.btn-primary(type='submit' name='submit' value='submit') Process Transaction
+      
+      
+      

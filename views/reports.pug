@@ -1,0 +1,19 @@
+extends layout
+
+block content
+  div.row
+    div.column-md-12
+    h1.text-center= title
+    table.table.table-striped
+            tr
+              th.text-center DVD id
+              th.text-center DVD Title
+              th.text-center Due Date
+              th.text-center Customer id 
+            each val in data
+              tr
+                td= val.dvd_id
+                td= val.title
+                td= val.due_date
+                td= val.customerid
+                
