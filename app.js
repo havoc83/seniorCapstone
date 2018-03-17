@@ -1,33 +1,39 @@
 //cd brewCityRentals/ &&  npm run dev
-
 const express = require('express')
 const path = require('path')
 const bodyParser = require('body-parser')
 const connection = require('express-myconnection')
 const mysql = require('mysql')
 const app = express()
+const cookieParser = require('cookie-parser')
 const dbinfo = require('./db.json')
 
-
-
 app.use(connection(mysql, dbinfo, 'pool'))
-var index = require('./routes/index')
-var employees = require('./routes/employees')
-var movies = require('./routes/movies')
-var customers = require('./routes/customers')
-
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
 app.set('view engine', 'pug')
-
+app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
+const index = require('./routes/index')
 
 //Add Routes
+
+const authenticate = (req, res, next) => {
+  if (req.cookies.token != undefined && req.cookies.token === index.token) {
+    next()
+  }
+  else {
+    console.log(index.token)
+    res.render('login')
+  }
+}
 app.use('/', index)
-app.use('/employees', employees)
-app.use('/movies', movies)
-app.use('/customers', customers)
+app.use('/reports', authenticate, require('./routes/reports'))
+app.use('/transaction', authenticate, require('./routes/transaction'))
+app.use('/employees', authenticate, require('./routes/employees'))
+app.use('/movies', authenticate, require('./routes/movies'))
+app.use('/customers', authenticate, require('./routes/customers'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 

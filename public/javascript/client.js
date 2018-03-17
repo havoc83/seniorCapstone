@@ -12,16 +12,26 @@ $(document).ready(function () {
     })
 
     $("#loginSubmit").click((e) => {
-        e.preventDefault()
-        $("#loginSubmit").trigger('login', $("#email").val(), $("#pw").val())
-    })
+        if (!$("#email").val() || !$("#pw").val()) {
+            e.preventDefault()
+            $("#login-error").removeClass("hidden")
+            $("#login-error").text("Email or Password are missing")
+            $("#email").addClass("has-error")
+            $("#pw").addClass("has-error")
+        }
+        else {
+            renderPage("#loginSubmit", window.location.origin + "/")
+        }
 
+    })
+    /*
     $("#loginSubmit").on("login success", (res) => {
         localStorage.setItem("uid", res.uid)
         localStorage.setItem("token", res.token)
-    })
+    })*/
     //Login Form Authentication
     renderPage("#login", window.location.origin + "/login")
+
     //Register Form Authentication
     renderPage("#register", window.location.origin + "/register")
     //Navigation Menu

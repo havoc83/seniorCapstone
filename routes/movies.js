@@ -17,7 +17,7 @@ router.get('/', (req, res) => {
 }) //route add customer, get n post
 
 router.get('/add', (req, res) => {
-    res.render('addMovie', { title: "Add Movies" })
+    res.render('addmovie', { title: "Add Movies" })
 })
 
 router.post('/add', (req, res) => {
