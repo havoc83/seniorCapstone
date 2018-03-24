@@ -33,7 +33,7 @@ $(document).ready(function () {
     renderPage("#login", window.location.origin + "/login")
 
     //Register Form Authentication
-    renderPage("#register", window.location.origin + "/register")
+    //renderPage("#register", window.location.origin + "/register")
     //Navigation Menu
     renderPage("#menu-home", window.location.origin + "/")
     renderPage("#menu-movies", window.location.origin + "/movies")

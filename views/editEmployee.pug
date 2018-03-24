@@ -4,13 +4,12 @@ block content
     .main.container
       .row
         .col-md-6.col-md-offset-3
-          h1.display-4.m-b-2 Register
+          h1.display-4.m-b-2 Edit Employee
           form(method='POST' action="")
             div.form-group
-              label(for='email') Email:
-              input#email.form-control(type='email' name='email')
               div#additional-info
-                each key,val in {'fname':'First Name', 'lname':'Last Name','phone':'Phone'}
-                  label(for= val) #{key}:
-                  input.form-control(type='text' name= key, id= val)  
+                each val in data
+                    each k,v in val
+                        label(for= v) #{v}:
+                        input.form-control(type='text' name= v, id= v, value= k)  
             button.btn.btn-primary(type='submit') Update

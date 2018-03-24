@@ -6,7 +6,7 @@ router.get('/', (req, res) => {
         if (err) {
             console.log("Error while selecting from customers table.")
         }
-        connection.query(`SELECT firstname,lastname,email,phone,address,
+        connection.query(`SELECT custid,firstname,lastname,email,phone,address,
         city,state,zip FROM customers`,
             (err, rows) => {
                 if (err) {
@@ -34,8 +34,8 @@ router.post('/add', (req, res) => {
         address: input.address,
         city: input.city,
         state: input.state,
-        zip: input.state,
-        emp_entry: input.entryEmp
+        zip: input.zip,
+        emp_entry: req.cookies.user
     }
     req.getConnection(function (err, connection) {
         if (err) {
@@ -58,7 +58,7 @@ router.get('/delete/:id', (req, res) => {
         if (err) {
             console.log("Error deleting from customers database")
         }
-        connection.query("DELETE FROM Customer WHERE custid = ?", [id], function (err, rows) {
+        connection.query("DELETE FROM customers WHERE custid = ?", [id], function (err, rows) {
             if (err) {
                 console.log("Error Deleting Row: %s", err)
             }
@@ -96,15 +96,16 @@ router.post('/edit/:id', (req, res) => {
         address: input.address,
         city: input.city,
         state: input.state,
-        zip: input.state,
-        emp_entry: input.entryEmp
+        zip: input.zip,
+        emp_entry: req.cookies.user
     }
     req.getConnection(function (err, connection) {
         if (err) {
             console.log("Failure to update customers table")
         }
-        connection.query("UPDATE Customers SET ? WHERE ?", [data, id], function (err, rows) {
+        connection.query("UPDATE customers SET ? WHERE custid = ?", [data, id], function (err, rows) {
             if (err) {
+                console.log("UPDATE customers SET ? WHERE custid = ?", [data, id])
                 console.log("Error Updating: %s", err)
             }
             else {

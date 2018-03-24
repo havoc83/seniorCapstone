@@ -26,7 +26,8 @@ router.post('/add', function (req, res) {
         firstname: input.firstname,
         lastname: input.lastname,
         email: input.email,
-        phone: input.phone
+        phone: input.phone,
+        emp_entry: req.cookies.user
     }
     req.getConnection(function (err, connection) {
         connection.query('INSERT INTO employees SET ?', data, function (err, rows) {
@@ -43,7 +44,7 @@ router.post('/add', function (req, res) {
 router.get('/delete/:id', function (req, res) {
     var id = req.params.id
     req.getConnection(function (err, connection) {
-        connection.query("DELETE FROM Employees WHERE empid = ?", [id], function (err, rows) {
+        connection.query("DELETE FROM employees WHERE empid = ?", [id], function (err, rows) {
             if (err) {
                 console.log("Error Deleting Row: %s", err)
             }
@@ -72,14 +73,14 @@ router.post('/edit/:id', function (req, res) {
     var input = JSON.parse(JSON.stringify(req.body))
     var id = req.params.id
     var data = {
-        fname: input.firstname,
-        lname: input.lastname,
+        firstname: input.firstname,
+        lastname: input.lastname,
         email: input.email,
         phone: input.phone,
-
+        emp_entry: req.cookies.user
     }
     req.getConnection(function (err, connection) {
-        connection.query("UPDATE Employees SET ? WHERE ?", [data, id], function (err, rows) {
+        connection.query("UPDATE employees SET ? WHERE empid = ?", [data, id], function (err, rows) {
             if (err) {
                 console.log("Error Updating: %s", err)
             }

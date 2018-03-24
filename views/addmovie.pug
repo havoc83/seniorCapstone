@@ -1,0 +1,13 @@
+extends layout
+
+block content
+    .main.container
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2 #{title}
+          form(method='POST' action='add')
+            div.form-group
+             each key,val in {'title':'Title','genre':'Genre','year':'Release Year','len':'Length','lang':'Language','director':'Director','role':'Lead Actor/Actress'}
+                  label(for= val) #{key}:
+                  input.form-control(type='text' name= val, id= val)  
+            button.btn.btn-primary(type='submit') Add Movie

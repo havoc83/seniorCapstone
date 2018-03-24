@@ -15,7 +15,7 @@ address VARCHAR(50),
 city VARCHAR(20),
 state CHAR(2) DEFAULT 'WI',
 zip VARCHAR(5),
-emp_entry INT,
+emp_entry VARCHAR(30),
 time_entered TIMESTAMP,
 password CHAR(32)
 );
@@ -26,13 +26,15 @@ firstname VARCHAR(30) NOT NULL,
 lastname VARCHAR(30) NOT NULL,
 email VARCHAR(30) NOT NULL,
 phone VARCHAR(11),
-password CHAR(32)
+password CHAR(32),
+emp_entry VARCHAR(30),
+token CHAR(32)
 );
 
 CREATE TABLE IF NOT EXISTS dvd(
 dvdid INT AUTO_INCREMENT PRIMARY KEY,
 dvd_name VARCHAR(50),
-emp_entry INT,
+emp_entry VARCHAR(30),
 time_entered TIMESTAMP
 );
 
@@ -46,15 +48,15 @@ language VARCHAR(50) DEFAULT 'English',
 director VARCHAR(50),
 lead_role VARCHAR(50),
 dvd_id INT,
-emp_entry INT,
-time_entered TIMESTAMP
+emp_entry VARCHAR(30),
+time_entered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS transaction(
 transactionid INT AUTO_INCREMENT PRIMARY KEY,
 dvdid INT,
 customerid INT,
-empid INT,
+empid VARCHAR(30),
 rental_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 due_date TIMESTAMP,
 returned_date TIMESTAMP DEFAULT NULL,
@@ -67,6 +69,6 @@ customerid INT,
 late_charges DOUBLE,
 dvdid INT,
 returned_date TIMESTAMP,
-emp_entry INT,
+emp_entry VARCHAR(30),
 time_entered TIMESTAMP
 );

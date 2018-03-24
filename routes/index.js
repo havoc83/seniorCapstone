@@ -22,25 +22,33 @@ router.get('/login', function (req, res) {
 })
 
 router.post('/login', (req, res) => {
+
     req.getConnection((err, connection) => {
         if (err) {
             console.log("Error while selecting from employees table.")
         }
-        connection.query('SELECT password FROM employees WHERE email = ?', req.body.email,
+        connection.query(`SELECT password FROM employees WHERE email = '${req.body.email.trim()}';`,
             (err, rows) => {
                 if (err) {
+                    console.log(`SELECT password FROM employees WHERE email = '${req.body.email.trim()}';`)
                     console.log("Error when querying from transaction table")
                 }
                 else {
-                    console.log(rows[0]['password'])
-                    if (typeof rows[0]['password'] !== undefined) {
+                    if (rows[0]['password'] != undefined) {
                         if (bcrypt.compareSync(req.body.password, rows[0]['password'])) {
-                            res.cookie('user', req.body.email)
+                            res.cookie('user', req.body.email.trim())
                             const token = Math.random().toString();
-                            print(token)
-                            exports.token = token
-                            res.cookie('token', token, { maxAge: 900000, httpOnly: true })
-                            res.redirect('/transaction')
+                            connection.query(`UPDATE employees SET token = '${token}' WHERE email = '${req.body.email.trim()}'`,
+                                (err, rows) => {
+                                    if (err) {
+                                        console.log(`UPDATE employees SET token = '${token}' WHERE email = ${req.body.email.trim()}`)
+                                        console.log("There was an error inserting record into employees table.")
+                                    }
+                                    else {
+                                        res.cookie('token', token, { maxAge: 900000, httpOnly: true })
+                                        res.redirect('/customers')
+                                    }
+                                })
                         }
                         else {
                             res.render('login', { title: "Sign in to BCR", data: "Password incorrect" })

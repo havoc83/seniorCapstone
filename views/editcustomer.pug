@@ -1,0 +1,16 @@
+extends layout
+
+block content
+    .main.container
+      .row
+        .col-md-6.col-md-offset-3
+          h1.display-4.m-b-2 Edit Employee  
+          form(method='POST' action="")
+            div.form-group
+              div#additional-info
+                each val in data
+                    each k,v in val
+                        label(for= v) #{v}:
+                        input.form-control(type='text' name= v, id= v, value= k)  
+                
+                button.btn.btn-primary(type='submit') Update

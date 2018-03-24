@@ -1,14 +1,14 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/transaction', (req, res) => {
+router.get('/', (req, res) => {
     res.render('transaction', { title: 'Process customer transactions' })
     req.on('submit', (data) => {
         console.log("Transaction submitted" + data)
     })
 })
 
-router.get('/transaction/:id', (req, res) => {
+router.get('/:id', (req, res) => {
     req.getConnection((err, connection) => {
         if (err) {
             console.log("Connection error in customer table")
@@ -29,7 +29,7 @@ router.get('/transaction/:id', (req, res) => {
 })
 
 
-router.post('/transaction', (req, res) => {
+router.post('/', (req, res) => {
 
     req.getConnection(function (err, connection) {
         if (err) {
@@ -78,7 +78,7 @@ router.post('/transaction', (req, res) => {
 })
 
 
-router.put('/transaction', (req, res) => {
+router.put('/', (req, res) => {
 
     req.getConnection(function (err, connection) {
         if (err) {

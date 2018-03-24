@@ -1,7 +1,7 @@
 const express = require('express')
 const router = express.Router()
 
-router.get('/reports', (req, res) => {
+router.get('/', (req, res) => {
     req.getConnection((err, connection) => {
         if (err) {
             console.log("Error while selecting from customers table.")

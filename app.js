@@ -15,20 +15,39 @@ app.set('view engine', 'pug')
 app.use(cookieParser())
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: false }))
-const index = require('./routes/index')
 
 //Add Routes
 
 const authenticate = (req, res, next) => {
-  if (req.cookies.token != undefined && req.cookies.token === index.token) {
-    next()
+  console.log(req.cookies.user)
+  if (req.cookies.token != undefined) {
+    req.getConnection((err, conn) => {
+      if (err) {
+        console.log('Could not connect to the database')
+      }
+      else {
+        conn.query(`SELECT token FROM employees WHERE email = '${req.cookies.user}';`, (err, rows) => {
+          if (err) {
+            console.log("There was an errror while retreiving token from employees table")
+          }
+          else {
+            if (rows[0]["token"] === req.cookies.token) {
+              next()
+            }
+            else {
+              res.redirect('/login')
+            }
+          }
+        })
+      }
+    })
   }
   else {
-    console.log(index.token)
-    res.render('login')
+    res.redirect('/login')
   }
 }
-app.use('/', index)
+
+app.use('/', require('./routes/index'))
 app.use('/reports', authenticate, require('./routes/reports'))
 app.use('/transaction', authenticate, require('./routes/transaction'))
 app.use('/employees', authenticate, require('./routes/employees'))
