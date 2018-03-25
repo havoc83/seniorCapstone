@@ -6,8 +6,8 @@ router.get('/', (req, res) => {
         if (err) {
             console.log("Error while selecting from customers table.")
         }
-        connection.query(`SELECT mv.dvd_id, mv.title, tr.due_date, tr.customerid FROM movies AS mv
-        JOIN transaction AS tr on mv.dvd_id = tr.dvdid WHERE tr.returned_date IS NULL;`,
+        connection.query(`SELECT mv.movieid, mv.title, tr.due_date, tr.customerid FROM movies AS mv
+        JOIN transaction AS tr on mv.movieid = tr.movieid WHERE tr.returned_date IS NULL;`,
             (err, rows) => {
                 if (err) {
                     console.log("Error Selecting : %s ", err)
