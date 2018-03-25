@@ -42,45 +42,16 @@ $(document).ready(function () {
     renderPage("#menu-transaction", window.location.origin + "/transaction")
     renderPage("#menu-reports", window.location.origin + "/reports")
 
-    $("#phone").change(() => {
-        $.get('transaction/' + $("#phone").val(),
-            function (data) {
-                $('#late-fees').removeClass('hidden')
-                let feeAmount = JSON.parse(data)[0].fee
-                feeAmount = 1
+    $("#customerid").change(() => {
+        $.get('transaction/' + $("#custid").val(),
+            (fee) => {
+                let feeAmount = JSON.parse(fee)[0].fee
                 $('#fee-amount').val(feeAmount)
                 if (feeAmount > 0) {
                     $('#fee-amount').addClass('has-error')
                 }
             })
     })
-    var transType = ""
-
-    $("#checkin").click((e) => {
-        e.preventDefault()
-        $("#late-fees").removeClass("hidden")
-        if (!$("#due-date").hasClass("hidden")) {
-            $("#due-date").addClass("hidden")
-        }
-        if (!$("#payment").hasClass("hidden")) {
-            $("#payment").addClass("hidden")
-        }
-        $('#transaction-form')[0].reset()
-        transType = 'checkin'
-    })
-
-    $("#checkout").click((e) => {
-        e.preventDefault()
-        if ($("#due-date").hasClass("hidden")) {
-            $("#due-date").removeClass("hidden")
-        }
-        if ($("#payment").hasClass("hidden")) {
-            $("#payment").removeClass("hidden")
-        }
-        $('#transaction-form')[0].reset()
-        transType = 'checkout'
-    })
-
 
     $("#cash").click((e) => {
         e.preventDefault()
@@ -115,35 +86,29 @@ $(document).ready(function () {
 
     $("#transaction-form").submit((e) => {
         e.preventDefault()
-        if ($("#phone").val() === '') {
-            $("#customer-phone").addClass("has-error")
-        }
-        else if ($("#dvd").val() === '') {
-            $("#dvd-id").addClass("has-error")
+        let transType = $('input[name=trans_type]:checked').val()
+        console.log(transType)
+        if (transType === '1') {
+            $.ajax({
+                url: $('#transaction-form').attr('action') + "checkout",
+                type: 'POST',
+                data: $('#transaction-form').serialize(),
+                success: function (res) {
+                    console.log(res)
+                    $('#transaction-form').each(() => { this.reset() })
+                }
+            })
         }
         else {
-            if (transType === 'checkout') {
-                $.ajax({
-                    url: $('#transaction-form').attr('action'),
-                    type: 'POST',
-                    data: $('#transaction-form').serialize(),
-                    success: function (res) {
-                        console.log(JSON.parse(res).body)
-                        $('#transaction-form').each(() => { this.reset() })
-                    }
-                })
-            }
-            else {
-                $.ajax({
-                    url: $('#transaction-form').attr('action'),
-                    type: 'PUT',
-                    data: $('#transaction-form').serialize(),
-                    success: (res) => {
-                        console.log(JSON.parse(res).body)
-                        $('#transaction-form').each(() => { this.reset() })
-                    }
-                })
-            }
+            $.ajax({
+                url: $('#transaction-form').attr('action') + "checkin",
+                type: 'PUT',
+                data: $('#transaction-form').serialize(),
+                success: (res) => {
+                    console.log(JSON.parse(res).body)
+                    $('#transaction-form').each(() => { this.reset() })
+                }
+            })
         }
 
     })

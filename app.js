@@ -19,7 +19,6 @@ app.use(bodyParser.urlencoded({ extended: false }))
 //Add Routes
 
 const authenticate = (req, res, next) => {
-  console.log(req.cookies.user)
   if (req.cookies.token != undefined) {
     req.getConnection((err, conn) => {
       if (err) {

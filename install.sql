@@ -1,9 +1,4 @@
 --Install Command:  source ~/workspace/install.sql
-CREATE TABLE IF NOT EXISTS users(
-uid INT AUTO_INCREMENT PRIMARY KEY,
-utype VARCHAR(9),
-table_id INT
-);
 
 CREATE TABLE IF NOT EXISTS customers(
 custid INT AUTO_INCREMENT PRIMARY KEY,
@@ -31,12 +26,6 @@ emp_entry VARCHAR(30),
 token CHAR(32)
 );
 
-CREATE TABLE IF NOT EXISTS dvd(
-dvdid INT AUTO_INCREMENT PRIMARY KEY,
-dvd_name VARCHAR(50),
-emp_entry VARCHAR(30),
-time_entered TIMESTAMP
-);
 
 CREATE TABLE IF NOT EXISTS movies(
 movieid INT AUTO_INCREMENT PRIMARY KEY,
@@ -47,28 +36,23 @@ length int,
 language VARCHAR(50) DEFAULT 'English',
 director VARCHAR(50),
 lead_role VARCHAR(50),
-dvd_id INT,
 emp_entry VARCHAR(30),
 time_entered TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE IF NOT EXISTS transaction(
 transactionid INT AUTO_INCREMENT PRIMARY KEY,
-dvdid INT,
+movieid INT,
 customerid INT,
 empid VARCHAR(30),
 rental_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 due_date TIMESTAMP,
 returned_date TIMESTAMP DEFAULT NULL,
 transaction_charges DOUBLE,
-late_charges DOUBLE
-);
-
-CREATE TABLE IF NOT EXISTS returns(
-customerid INT,
+trans_amount DOUBLE,
+check_num VARCHAR(5),
+credit_num VARCHAR(25),
+credit_exp VARCHAR(10)
 late_charges DOUBLE,
-dvdid INT,
-returned_date TIMESTAMP,
-emp_entry VARCHAR(30),
-time_entered TIMESTAMP
+emp_entry VARCHAR(30)
 );

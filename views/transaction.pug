@@ -4,32 +4,25 @@ block content
   div.row
     div.column-md-12
     h1.text-center= title
-    div#show-errors.hidden
-      h2#errors Error on Form Submission
-  
-        // transaction form
-    form#transaction-form(method='POST' action='/transaction')
+    form#transaction-form(method='POST' action='transaction/')
       div.form-group
-        div.dropdown
-          button.btn.btn-default.dropdown-toggle(data-toggle="dropdown" id="trans-type" type="button") Transaction Type
-            span.caret
-          ul.dropdown-menu(role="menu" aria-labelledby="trans-type")
-            li(role="presentation")
-              a#checkout(role="menuitem" tabindex="-1" href="#") Check-out
-            li(role="presentation")
-              a#checkin(role="menuitem" tabindex="-1" href="#") Check-in
-        div#customer-id
+        label(for='trans_type') Checkout:
+          input(type='radio', name='trans_type', value='1')
+        label(for='trans_type') Checkin:
+          input(type='radio', name='trans_type', value='2')
+        
+        div#customerid
           label(for='custid') Customer ID:
           input#custid.form-control(type='text' placeholder='Customer id' name='custid')
-        div#dvd-id
-          label(for='dvd') Dvd-Ids:
-          input#dvd.form-control(type='text' name='dvd' placeholder="DVD id")
+        div#movieid
+          label(for='movieid') Movie-Id:
+          input#dvd.form-control(type='text' name='movieid' placeholder="Movie id")
         div#due-date
-          label(for='due') Due Back:
-          input#due.form-control(type='text' name='due' placeholder="Due Date")
-        div#late-fees.hidden 
-          label(for='fees') Late Fees:
-          input#fee-amount.form-control(type='text' name='fee' value='0')
+          label(for='due_date') Due Back/ Returned Date:
+          input#due.form-control(type='text' name='due_date' placeholder="Due Date")
+        div#late-fees 
+          label(for='late_charges') Late Fees:
+          input#fee-amount.form-control(type='text' name='late_charges' value='0')
         div#payment.dropdown
           button.btn.btn-default.dropdown-toggle(data-toggle="dropdown" id="menu1" type="button") Payment Method
             span.caret
@@ -43,18 +36,18 @@ block content
           div.input-group.hidden#input-amount
             div.input-group-prepend
               span.input-group-text Amount
-            input.form-control(type="text" name="amount")
+            input.form-control(type="text" name="trans_amount")
           div.input-group.hidden#input-check
             div.input-group-prepend
               span.input-group-text Check #
-            input.form-control(type="text" name="check")
+            input.form-control(type="text" name="check_num")
           div.input-group.hidden#input-credit
             div.input-group-prepend
               span.input-group-text Card #
-            input.form-control(type="text" name="credit")
+            input.form-control(type="text" name="credit_num")
             div.input-group-prepend
               span.input-group-text Expiration Date
-            input.form-control(type="text" name="credit-exp")
+            input.form-control(type="text" name="credit_exp")
         button#submitTrans.btn.btn-primary(type='submit' name='submit' value='submit') Process Transaction
       
       

@@ -9,6 +9,7 @@ block content
           h1.display-4.m-b-2.text-center= title
           table.table.table-striped
             tr
+              th.text-center Customer Id
               th.text-center First Name
               th.text-center Last Name
               th.text-center Email
@@ -21,6 +22,7 @@ block content
               th.text-center 
             each val in data
               tr
+                td= val.custid
                 td= val.firstname
                 td= val.lastname
                 td= val.email
