@@ -94,8 +94,9 @@ $(document).ready(function () {
                 type: 'POST',
                 data: $('#transaction-form').serialize(),
                 success: function (res) {
-                    console.log(res)
-                    $('#transaction-form').each(() => { this.reset() })
+                    $('#transaction-form')[0].reset()
+                    alert("Checkout Completed")
+
                 }
             })
         }
@@ -105,8 +106,8 @@ $(document).ready(function () {
                 type: 'PUT',
                 data: $('#transaction-form').serialize(),
                 success: (res) => {
-                    console.log(JSON.parse(res).body)
-                    $('#transaction-form').each(() => { this.reset() })
+                    $('#transaction-form')[0].reset()
+                    alert("Checkin Completed")
                 }
             })
         }

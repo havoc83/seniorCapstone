@@ -44,15 +44,14 @@ CREATE TABLE IF NOT EXISTS transaction(
 transactionid INT AUTO_INCREMENT PRIMARY KEY,
 movieid INT,
 customerid INT,
-empid VARCHAR(30),
 rental_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 due_date TIMESTAMP,
-returned_date TIMESTAMP DEFAULT NULL,
+returned_date TIMESTAMP,
 transaction_charges DOUBLE,
 trans_amount DOUBLE,
 check_num VARCHAR(5),
 credit_num VARCHAR(25),
-credit_exp VARCHAR(10)
+credit_exp VARCHAR(10),
 late_charges DOUBLE,
 emp_entry VARCHAR(30)
 );

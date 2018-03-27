@@ -6,13 +6,14 @@ router.get('/', (req, res) => {
         if (err) {
             console.log("Error while selecting from customers table.")
         }
-        connection.query(`SELECT mv.movieid, mv.title, tr.due_date, tr.customerid FROM movies AS mv
-        JOIN transaction AS tr on mv.movieid = tr.movieid WHERE tr.returned_date IS NULL;`,
+        connection.query(`SELECT tr.movieid, mv.title, tr.due_date, tr.customerid FROM movies AS mv
+        JOIN transaction AS tr on mv.movieid = tr.movieid WHERE tr.returned_date = 0;`,
             (err, rows) => {
                 if (err) {
                     console.log("Error Selecting : %s ", err)
                 }
                 else {
+                    console.log(rows)
                     res.render('reports', { title: "BCR Checked Out Movies", data: rows })
                 }
             })
